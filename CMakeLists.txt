@@ -39,6 +39,8 @@ install( TARGETS pario
          RUNTIME DESTINATION bin
          LIBRARY DESTINATION lib
          ARCHIVE DESTINATION lib )
+install( FILES pario.h
+         DESTINATION include )
 
 if( BUILD_TEST )
   add_executable( pariotest main.cpp )
