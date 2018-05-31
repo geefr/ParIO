@@ -13,12 +13,12 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-sh "mkdir -p ${env.WORKSPACE}/build
+sh '''mkdir -p ${env.WORKSPACE}/build
 mkdir -p ${env.WORKSPACE}/install
 cd ${env.WORKSPACE}/build
 cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source
 make install
-cd ${env.WORKSPACE}"
+cd ${env.WORKSPACE}'''
       }
     }
     stage('Package') {
