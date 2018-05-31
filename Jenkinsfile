@@ -13,22 +13,22 @@ pipeline {
   stages {
     stage('CMake') { steps {
       dir("${env.WORKSPACE}/build") {
-        sh returnStdout: true, script: '''echo $PWD'''
-        sh returnStdout: true, script: '''cmake -DCMAKE_INSTALL_PREFIX=../install ../source'''
+        sh '''cmake -DCMAKE_INSTALL_PREFIX=../install ../source'''
       }
     } }
     stage('Build') {
       steps {
         dir("${env.WORKSPACE}/build") {
-sh returnStdout: true, script:  '''make install'''
+          sh '''make install'''
         }
       }
     }
-    stage('Package') {
+    stage('Artifacts') {
       steps {
-        sh "tar -cvzf ${env.WORKSPACE}/ParIO.tar.gz ${env.WORKSPACE}/install/*"
-
-archiveArtifacts artifacts: '${env.WORKSPACE}/ParIO.tar.gz', fingerprint: true, onlyIfSuccessful: true
+        //dir("${env.WORKSPACE}") {
+          sh '''tar -cvzf ParIO.tar.gz install/*'
+archiveArtifacts artifacts: 'ParIO.tar.gz', fingerprint: true, onlyIfSuccessful: true
+        //}
       }
     }
   }
