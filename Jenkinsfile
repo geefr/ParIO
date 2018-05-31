@@ -11,17 +11,15 @@ pipeline {
   }
 
   stages {
-    stage('Setup') {
-      steps {
-        sh "mkdir ${env.WORKSPACE}/build"
-        sh "mkdir ${env.WORKSPACE}/install"
-      }
-    }
     stage('Build') {
       steps {
-        sh "cd ${env.WORKSPACE}/build"
-        sh "cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source"
-        sh "make install"
+sh returnStatus: true, script: '''mkdir build
+mkdir install
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source
+make install
+cd ${env.WORKSPACE}
+tar -cvzf ${env.WORKSPACE}/ParIO.tar.gz ${env.WORKSPACE}/install/*'''
       }
     }
   }
