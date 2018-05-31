@@ -11,14 +11,18 @@ pipeline {
   }
 
   stages {
+    stage('Setup') {
+sh '''mkdir -p ${env.WORKSPACE}/build
+mkdir -p ${env.WORKSPACE}/install'''
+    }
+    stage('CMake') {
+sh '''cd ${env.WORKSPACE}/build
+cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source
+'''
+    }
     stage('Build') {
       steps {
-sh '''mkdir -p ${env.WORKSPACE}/build
-mkdir -p ${env.WORKSPACE}/install
-cd ${env.WORKSPACE}/build
-cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source
-make install
-cd ${env.WORKSPACE}'''
+sh '''make install'''
       }
     }
     stage('Package') {
