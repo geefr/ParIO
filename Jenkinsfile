@@ -26,7 +26,7 @@ pipeline {
     stage('Artifacts') {
       steps {
         //dir("${env.WORKSPACE}") {
-          sh '''tar -cvzf ParIO.tar.gz install/*'
+          sh '''tar -cvzf ParIO.tar.gz install/*'''
 archiveArtifacts artifacts: 'ParIO.tar.gz', fingerprint: true, onlyIfSuccessful: true
         //}
       }
