@@ -18,9 +18,9 @@ pipeline {
     }
     stage('Build') {
       steps {
-        cd ${env.WORKSPACE}/build
-        cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}
-        make install
+        sh "cd ${env.WORKSPACE}/build"
+        sh "cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source"
+        sh "make install"
       }
     }
     stage('Deploy') {
