@@ -13,13 +13,13 @@ pipeline {
   stages {
     stage('CMake') { steps {
       dir("${env.WORKSPACE}/build") {
-        returnStdout: true, script:  '''cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source'''
+        sh returnStdout: true, script:  '''cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source'''
       }
     } }
     stage('Build') {
       steps {
         dir("${env.WORKSPACE}/build") {
-returnStdout: true, script:  '''make install'''
+sh returnStdout: true, script:  '''make install'''
         }
       }
     }
