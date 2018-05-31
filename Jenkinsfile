@@ -1,13 +1,12 @@
 pipeline {
   agent any
 
+properties([pipelineTriggers([[$class: 'GitHubPushTrigger'], pollSCM('H/15 * * * *')])])
+
   options {
     buildDiscarder( logRotator(artifactDaysToKeepStr: '90') )
     checkoutToSubdirectory('source')
     timeout(time: 1, unit: 'HOURS')
-  }
-  triggers { 
-    pollSCM('H * * * *') 
   }
 
   stages {
