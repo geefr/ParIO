@@ -25,7 +25,7 @@ cd ${env.WORKSPACE}
       steps {
         sh "tar -cvzf ${env.WORKSPACE}/ParIO.tar.gz ${env.WORKSPACE}/install/*"
 
-archiveArtifacts artifacts: '${env.WORKSPACE}/ParIO.tar.gz', fingerprint: true, onlyIfSuccessful: true
+# archiveArtifacts artifacts: '${env.WORKSPACE}/ParIO.tar.gz', fingerprint: true, onlyIfSuccessful: true
       }
     }
   }
