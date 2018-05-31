@@ -20,7 +20,7 @@ sh '''cd ${env.WORKSPACE}/build
 cmake -DCMAKE_INSTALL_PREFIX=${env.WORKSPACE}/install ${env.WORKSPACE}/source
 '''
     } }
-    stage('Build')
+    stage('Build') {
       steps {
 sh '''make install'''
       }
