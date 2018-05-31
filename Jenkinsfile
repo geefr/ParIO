@@ -12,8 +12,8 @@ pipeline {
 
   stages {
     stage('Setup') { steps {
-sh '''mkdir -p ${env.WORKSPACE}/build
-mkdir -p ${env.WORKSPACE}/install'''
+sh '''mkdir -p ${env.WORKSPACE}/build'''
+sh '''mkdir -p ${env.WORKSPACE}/install'''
     } }
     stage('CMake') { steps {
 sh '''cd ${env.WORKSPACE}/build
