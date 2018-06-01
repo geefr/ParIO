@@ -30,4 +30,19 @@ archiveArtifacts artifacts: 'ParIO.tar.gz', fingerprint: true, onlyIfSuccessful:
       }
     }
   }
+
+  post {
+    always {
+emailext attachLog: true, body: '''${DEFAULT_CONTENT}''', compressLog: true, recipientProviders: [[$class: 'CulpritsRecipientProvider']], subject: '${DEFAULT_SUBJECT}', to: '${DEFAULT_RECIPIENTS}'
+    }
+//    success {
+//    }
+//    failure {
+//    }
+//    unstable {
+//    }
+//    changed {
+//    }
+  }
 }
+
