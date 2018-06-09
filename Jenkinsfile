@@ -1,5 +1,11 @@
 pipeline {
-  agent { dockerfile true }
+  agent { 
+    dockerfile {
+      filename 'source/Dockerfile'
+      dir 'build'
+      label 'docker-host'
+    }
+  }
 
   options {
     buildDiscarder( logRotator(artifactDaysToKeepStr: '90') )
