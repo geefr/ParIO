@@ -2,7 +2,6 @@ pipeline {
   agent { 
     dockerfile {
       filename 'source/Dockerfile'
-      dir '${WORKSPACE}'
       label 'docker-host'
     }
   }
