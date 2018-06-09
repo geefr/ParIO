@@ -3,7 +3,7 @@ pipeline {
 
   options {
     buildDiscarder( logRotator(artifactDaysToKeepStr: '90') )
-    //checkoutToSubdirectory('source')
+    checkoutToSubdirectory('source')
     timeout(time: 1, unit: 'HOURS')
   }
   triggers { 
@@ -13,7 +13,7 @@ pipeline {
   stages {
     stage('CMake') { steps {
       dir("${env.WORKSPACE}/build") {
-        sh '''cmake -DCMAKE_INSTALL_PREFIX=../install ../'''
+        sh '''cmake -DCMAKE_INSTALL_PREFIX=../install ../source'''
       }
     } }
     stage('Build') {
