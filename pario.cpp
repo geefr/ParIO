@@ -40,6 +40,7 @@
 ParIOPort::ParIOPort( const unsigned int& port )
 : m_isOpen{ false }
 , m_fd{ -1 }
+, m_dataDir{ DataDirection::Output }
 {
   m_isOpen = open( port );
 }
@@ -109,6 +110,13 @@ bool ParIOPort::open( const unsigned int& port )
     ::close( m_fd );
     return false;
   }
+
+  if( !setDataDirection( m_dataDir ) )
+  {
+    ioctl( m_fd, PPRELEASE );
+    ::close( m_fd );
+    return false;
+  }
   
   m_isOpen = true;
   return true;
@@ -129,18 +137,10 @@ void ParIOPort::close()
 
 bool ParIOPort::write( const unsigned char& b ) const
 {
-  /* 
-   * If we use PPSETMODE to the appropriate setting
-   * we could probably use read/write for this
-   * 
-   * size_t toWrite{ 1 };
-   * ssize_t written{ 0 };
-   * written = write( m_fd, (const void*)b, toWrite );
-   * return toWrite == written;
-   */
-
-  // But as we want to set the data pins directly 
-  // this is easier
+  if( !setDataDirection( DataDirection::Output ) )
+  {
+    return false;
+  }
   if( ioctl( m_fd, PPWDATA, &b ) )
   {
     perror( "PPWDATA" );
@@ -149,3 +149,27 @@ bool ParIOPort::write( const unsigned char& b ) const
   return true;
 }
 
+bool ParIOPort::read( unsigned char& data ) const
+{
+  if( !setDataDirection( DataDirection::Input ) )
+  {
+    return false;
+  }
+  if( ioctl( m_fd, PPRDATA, &data ) )
+  {
+    perror( "PPRDATA" );
+    return false;
+  }
+  return true;
+}
+
+bool ParIOPort::setDataDirection( const DataDirection& dir ) const
+{
+  int arg{ (int)dir };
+  if( ioctl(m_fd, PPDATADIR, &arg) )
+  {
+    perror( "PPDATADIR" );
+    return false;
+  }
+  return true;
+}

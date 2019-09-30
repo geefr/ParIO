@@ -66,10 +66,37 @@ class ParIOPort
      */
     bool write( const unsigned char& b ) const;
 
+    /**
+     * Read from the data pins
+     * @param data Will be set to the state of the data pins
+     * @return true if data was read, false otherwise
+     */
+    bool read( unsigned char& data ) const;
+
   private:
+    /**
+     * Data direction for parallel port
+     * Direct mapping to values for PPDATADIR
+     */
+    enum class DataDirection : int
+    {
+      /// Data pins as output
+      Output,
+      /// Data pins as input
+      Input
+    };
+
+    /**
+     * Set direction of data pins
+     * @param dir Direction to set
+     * @return true if direction was set, false otherwise.
+     */
+    bool setDataDirection( const DataDirection& dir ) const;
+
     std::string m_port;
     bool m_isOpen;
     int m_fd;
+    DataDirection m_dataDir;
 };
 
 #endif
